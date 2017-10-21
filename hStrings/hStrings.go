@@ -1,6 +1,12 @@
 package hStrings
 
-import "bytes"
+import (
+	"bytes"
+	"regexp"
+	"strings"
+)
+
+var regexNonAlphaNum = regexp.MustCompile("[^A-Za-z0-9]")
 
 //Concatenate faster concatenate string.
 func Concatenate(str ...string) string {
@@ -12,11 +18,19 @@ func Concatenate(str ...string) string {
 }
 
 //Reverse make string reverse. Ex: Hello World => dlroW olleH
-func Reverse(s string) (result string) {
-	for _, v := range s {
+func Reverse(str string) (result string) {
+	for _, v := range str {
 		result = Concatenate(string(v), result)
 	}
 	return
+}
+
+//Slug slugify string, default separator = '-'
+func Slug(str string, separator string) string {
+	if separator == "" {
+		separator = "-"
+	}
+	return strings.ToLower(regexNonAlphaNum.ReplaceAllString(str, separator))
 }
 
 // //NumberFormat give thousand dot separator
